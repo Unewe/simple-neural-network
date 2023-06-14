@@ -1,0 +1,10 @@
+.canvas-wrapper {
+  position: relative;
+  user-select: none;
+  display: grid;
+
+  div {
+    box-sizing: border-box;
+    border: beige 1px solid;
+  }
+}

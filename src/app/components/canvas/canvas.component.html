@@ -1,0 +1,36 @@
+<div style="display: flex">
+  <div>
+    <div
+      class="canvas-wrapper"
+      *ngIf="(canvas$ | async) as canvas"
+      (mousedown)="active = true"
+      (mouseup)="active = false"
+      [style.grid-template-columns]="getCanvasMarkup()"
+      [style.grid-auto-rows]="getPixelSize()"
+    >
+      <div
+        *ngFor="let pixel of canvas; let i = index"
+        [style.background-color]="getColor(pixel)"
+        (mousemove)="active && draw(i)"
+      ></div>
+    </div>
+  </div>
+
+  <div>
+    <div *ngFor="let result of results; let i = index">{{i}} : {{result}}</div>
+  </div>
+</div>
+<div (click)="clear()">Clear</div>
+<div *ngIf="(canvas$ | async) as canvas" (click)="calculate(canvas)">Calculate</div>
+<div *ngIf="(canvas$ | async) as canvas" (click)="log(canvas)">Log</div>
+<div (click)="study()">Study</div>
+<form *ngIf="(canvas$ | async) as canvas" [formGroup]="formGroup" (ngSubmit)="formSubmit(canvas)">
+  <input formControlName="digit">
+  <input formControlName="variant">
+  <button type="submit">Apply</button>
+</form>
+
+<form [formGroup]="testFromGroup" (ngSubmit)="testForm()">
+  <input formControlName="num">
+  <button type="submit">Test</button>
+</form>

@@ -1,21 +1,22 @@
 import {diff, multiply, sigmoid, sigmoidDerivative, softmax, sum} from "../../util/util";
-import {data} from "../../util/learn-data";
 
 export class NeuralNetwork {
   private readonly weights: Array<Array<Array<number>>> = [];
   private readonly biases: Array<Array<number>> = [];
   private readonly nonlinearBuffer: Array<Array<number>> = [];
-  private readonly epochs = 1000;
+  private readonly epochs = 5;
 
   /**
    *
    * @param layers уровни нейронной сети.
    * @param alpha момент.
    * @param weights веса.
+   * @param biases смещения.
    */
-  constructor(private layers: Array<number>, private alpha: number, weights?: Array<Array<Array<number>>>) {
-    if (weights) {
+  constructor(private layers: Array<number>, private alpha: number, weights?: Array<Array<Array<number>>>, biases?: Array<Array<number>>) {
+    if (weights && biases) {
       this.weights = weights;
+      this.biases = biases;
     } else {
       this.layers.forEach((layer, index, array) => {
         if (index === array.length - 1) return;
@@ -47,7 +48,7 @@ export class NeuralNetwork {
         this.backPropagation(dEdT, layer);
       }
 
-      return s;
+      return s.map(value => Number(value.toFixed(3)));
     } else {
       return this.calculate(nonlinear, layer + 1, answer);
     }
@@ -59,13 +60,31 @@ export class NeuralNetwork {
     return diff(result, answers);
   }
 
-  public study(): void {
+  public study(data: Array<Array<Array<number>>>): void {
     for(let i = 0; i < this.epochs; i++) {
+      console.log("Эпоха", i);
+      const variants = 890;
       const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].sort( () => .5 - Math.random());
-      for (const num of nums) {
-        this.calculate(data[num][0], 0, num);
+
+      for (let v = 0; v < variants; v++) {
+        for (const num of nums) {
+          this.calculate(data[num][v], 0, num);
+        }
       }
     }
+
+    // Save
+    // const a = document.createElement("a");
+    // const file = new Blob(
+    //   [JSON.stringify({ weights: this.weights, biases: this.biases})],
+    //   {type: 'text/plain'}
+    // );
+    //
+    // a.href = URL.createObjectURL(file);
+    // a.download = "weightsAndBiases.json";
+    // a.click();
+
+    console.log(JSON.stringify({ weights: this.weights, biases: this.biases}));
   }
 
   public backPropagation(dEdT: Array<number>, layer: number): void {

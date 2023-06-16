@@ -3,7 +3,7 @@ import {CanvasStore} from "./types";
 import {clear, draw, paste} from "./canvas.actions";
 
 const canvas: Array<number> = [];
-export const canvasSize = 24;
+export const canvasSize = 28;
 export const pixelSize = 20;
 
 for(let i = 0; i < canvasSize * canvasSize; i++) {
@@ -17,7 +17,7 @@ export const canvasReducer = createReducer(
 
   on(draw, (state, {index}) => {
     const canvas = [...state.canvas];
-    canvas[index] += 0.3;
+    canvas[index] += 0.5;
     canvas[index - canvasSize] += 0.1;
     canvas[index - canvasSize - 1] += 0.01;
     canvas[index - canvasSize + 1] += 0.01;

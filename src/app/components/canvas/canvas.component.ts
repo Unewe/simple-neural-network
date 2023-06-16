@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {CanvasStore} from "../../store/types";
 import {map, Observable} from "rxjs";
@@ -13,7 +13,7 @@ import {data} from "../../util/learn-data";
   templateUrl: './canvas.component.html',
   styleUrls: ['./canvas.component.scss']
 })
-export class CanvasComponent {
+export class CanvasComponent implements OnInit {
   canvas$: Observable<Array<number>>;
   size = pixelSize + "px";
   active = false;
@@ -36,6 +36,10 @@ export class CanvasComponent {
 
   public draw(index: number) {
     this.store.dispatch(draw({index}));
+  }
+
+  public ngOnInit(): void {
+
   }
 
   public getCanvasMarkup(): string {
@@ -70,21 +74,48 @@ export class CanvasComponent {
 
   public formSubmit(canvas: Array<number>) {
     const {digit, variant} = this.formGroup.value;
-
+    const tmpData = JSON.parse(data);
     if (digit && variant) {
-      const variants = this.trainGroup[parseInt(digit)];
-      if (!variants) this.trainGroup[parseInt(digit)] = [];
-
-      this.trainGroup[parseInt(digit)][parseInt(variant)] = [...canvas];
+      this.store.dispatch(paste({canvas: tmpData[parseInt(digit)][parseInt(variant)]}));
     }
   }
 
   public testForm(): void {
-    const {num} = this.testFromGroup.value;
+    // const {num} = this.testFromGroup.value;
+    //
+    // if (num) {
+    //   this.store.dispatch(paste({canvas: data[parseInt(num)][0]}));
+    //   this.results = this.nnService.calculate(data[parseInt(num)][0]);
+    // }
 
-    if (num) {
-      this.store.dispatch(paste({canvas: data[parseInt(num)][0]}));
-      this.results = this.nnService.calculate(data[parseInt(num)][0]);
-    }
+    // const imagesData: Array<Array<Array<number>>> = [];
+    // const list = JSON.parse(images);
+    // let counter = 0;
+    // for (const imgName of list) {
+    //   const image = document.createElement("img");
+    //   const canvas = document.createElement("canvas");
+    //
+    //   image.setAttribute("src", `./assets/test/${imgName}`);
+    //   image.onload = () => {
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
+    //     canvas.getContext("2d")?.drawImage(image, 0, 0, image.width, image.height);
+    //     const data = canvas.getContext('2d')?.getImageData(0, 0, image.width, image.height).data ?? [];
+    //     const tmp: Array<number> = [];
+    //     for (let i = 0; i < data.length; i += 4) {
+    //       tmp.push(Number((data[i] / 255).toFixed(2)));
+    //     }
+    //     const num = parseInt(imgName.slice(-5, -4));
+    //     if (!imagesData[num]) imagesData[num] = [];
+    //     imagesData[num].push(tmp);
+    //     counter += 1;
+    //
+    //     if (counter === 10000) {
+    //       console.log(JSON.stringify(imagesData));
+    //     } else if (counter % 1000 === 0) {
+    //       console.log(counter);
+    //     }
+    //   }
+    // }
   }
 }

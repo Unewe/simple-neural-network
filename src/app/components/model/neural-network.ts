@@ -4,8 +4,7 @@ export class NeuralNetwork {
   private readonly weights: Array<Array<Array<number>>> = [];
   private readonly biases: Array<Array<number>> = [];
   private readonly nonlinearBuffer: Array<Array<number>> = [];
-  private readonly epochs = 5;
-
+  private readonly epochs = 100;
   /**
    *
    * @param layers уровни нейронной сети.
@@ -63,26 +62,15 @@ export class NeuralNetwork {
   public study(data: Array<Array<Array<number>>>): void {
     for(let i = 0; i < this.epochs; i++) {
       console.log("Эпоха", i);
-      const variants = 890;
+      const variants = 5400;
       const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].sort( () => .5 - Math.random());
 
       for (let v = 0; v < variants; v++) {
         for (const num of nums) {
-          this.calculate(data[num][v], 0, num);
+          this.calculate(data[num][v].map(value => value > 0 ? 1 : 0), 0, num);
         }
       }
     }
-
-    // Save
-    // const a = document.createElement("a");
-    // const file = new Blob(
-    //   [JSON.stringify({ weights: this.weights, biases: this.biases})],
-    //   {type: 'text/plain'}
-    // );
-    //
-    // a.href = URL.createObjectURL(file);
-    // a.download = "weightsAndBiases.json";
-    // a.click();
 
     console.log(JSON.stringify({ weights: this.weights, biases: this.biases}));
   }

@@ -41,3 +41,41 @@ export function softmax(values: Array<number>): Array<number> {
 
   return tmp.map(value => value / sum);
 }
+
+export function getMovedInput(input: Array<number>) {
+  const template: Array<Array<number>> = [[]];
+  const col = Math.sqrt(input.length);
+  let bias = col;
+
+  let biasUpdated = false;
+  let counter = 0;
+  for (let i = 0; i < input.length; i++) {
+    if (counter === col) {
+      counter = 0;
+      template.push([]);
+      biasUpdated = false;
+    }
+
+    if (input[i] !== 0 && !biasUpdated && counter < bias) {
+      bias = counter;
+    }
+
+    template[template.length - 1].push(input[i]);
+    counter++;
+  }
+
+  for (let i = 0; i < col; i++) {
+    if (template[template.length - 1].some(value => value > 0)) break;
+
+    template.unshift(template.pop()!);
+  }
+
+  const result: Array<number> = [];
+  for (let i = 0; i < col; i++) {
+    for (let j = 0; j < col; j++) {
+      result.push(template[i][j + bias] ?? 0);
+    }
+  }
+
+  return result;
+}

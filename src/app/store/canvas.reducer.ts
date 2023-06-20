@@ -4,7 +4,7 @@ import {clear, draw, paste} from "./canvas.actions";
 
 const canvas: Array<number> = [];
 export const canvasSize = 28;
-export const pixelSize = 20;
+export const pixelSize = 10;
 
 for(let i = 0; i < canvasSize * canvasSize; i++) {
   canvas.push(0);
@@ -17,15 +17,15 @@ export const canvasReducer = createReducer(
 
   on(draw, (state, {index}) => {
     const canvas = [...state.canvas];
-    canvas[index] += 0.5;
-    canvas[index - canvasSize] += 0.1;
+    canvas[index] += 1;
+    canvas[index - canvasSize] += 0.05;
     canvas[index - canvasSize - 1] += 0.01;
     canvas[index - canvasSize + 1] += 0.01;
-    canvas[index + canvasSize] += 0.1;
+    canvas[index + canvasSize] += 0.05;
     canvas[index + canvasSize - 1] += 0.01;
     canvas[index + canvasSize + 1] += 0.01;
-    canvas[index - 1] += 0.1;
-    canvas[index + 1] += 0.1;
+    canvas[index - 1] += 0.05;
+    canvas[index + 1] += 0.05;
 
     if (canvas[index - canvasSize] > 1) canvas[index - canvasSize] = 1;
     if (canvas[index - canvasSize - 1] > 1) canvas[index - canvasSize - 1] = 1;

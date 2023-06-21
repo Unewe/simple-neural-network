@@ -25,7 +25,7 @@ export class NeuralNetworkService {
 
   constructor() {
     const {weights, biases} = JSON.parse(weightsAndBiases);
-    this.nn = new NeuralNetwork([canvasSize * canvasSize, 18, 18, 10], 0.003);
+    this.nn = new NeuralNetwork([canvasSize * canvasSize, 128, 64, 32, 10], 0.001, weights, biases);
   }
 
   public calculate(values: Array<number>): Array<number> {

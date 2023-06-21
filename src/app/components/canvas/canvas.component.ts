@@ -52,7 +52,8 @@ export class CanvasComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-
+    // localStorage.clear();
+    console.log(localStorage.getItem("weights"));
   }
 
   public getCanvasMarkup(): string {
@@ -101,35 +102,37 @@ export class CanvasComponent implements OnInit {
     //   this.results = this.nnService.calculate(data[parseInt(num)][0]);
     // }
 
-    const imagesData: Array<Array<number>> = [];
-
-    let counter = 0;
-    const i = 9;
-    for (let j = 0; j < 5400; j++) {
-      const image = document.createElement("img");
-      const canvas = document.createElement("canvas");
-      image.setAttribute("src", `./assets/${i}/file-${j + 1}.png`);
-      image.onload = () => {
-        canvas.width = image.width;
-        canvas.height = image.height;
-        canvas.getContext("2d")?.drawImage(image, 0, 0, image.width, image.height);
-        const data = canvas.getContext('2d')?.getImageData(0, 0, image.width, image.height).data ?? [];
-        const tmp: Array<number> = [];
-        for (let i = 0; i < data.length; i += 4) {
-          tmp.push(Number((data[i] / 255).toFixed(2)));
-        }
-
-        imagesData.push(tmp);
-        counter += 1;
-
-        if (counter === 5400) {
-          const tmp = JSON.stringify(imagesData);
-          console.log(tmp);
-          localStorage.setItem("weights", tmp);
-        } else if (counter % 1000 === 0) {
-          console.log(counter);
-        }
-      }
-    }
+    // const imagesData: Array<Array<number>> = [];
+    //
+    // let counter = 0;
+    //
+    //
+    // const i = 9;
+    // const count = 5949;
+    // for (let j = 1; j <= count; j++) {
+    //   const image = document.createElement("img");
+    //   const canvas = document.createElement("canvas");
+    //   image.setAttribute("src", `./assets/${i}/file-${j}.png`);
+    //   image.onload = () => {
+    //     canvas.width = image.width;
+    //     canvas.height = image.height;
+    //     canvas.getContext("2d")?.drawImage(image, 0, 0, image.width, image.height);
+    //     const data = canvas.getContext('2d')?.getImageData(0, 0, image.width, image.height).data ?? [];
+    //     const tmp: Array<number> = [];
+    //     for (let i = 0; i < data.length; i += 4) {
+    //       tmp.push(Number((data[i] / 255).toFixed(2)));
+    //     }
+    //
+    //     imagesData.push(tmp);
+    //     counter += 1;
+    //
+    //     if (counter === count) {
+    //       const tmp = JSON.stringify(imagesData);
+    //       console.log(tmp);
+    //     } else if (counter % 1000 === 0) {
+    //       console.log(counter);
+    //     }
+    //   }
+    // }
   }
 }

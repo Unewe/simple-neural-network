@@ -4,7 +4,7 @@ export class NeuralNetwork {
   private readonly weights: Array<Array<Array<number>>> = [];
   private readonly biases: Array<Array<number>> = [];
   private readonly nonlinearBuffer: Array<Array<number>> = [];
-  private readonly epochs = 100;
+  private readonly epochs = 10;
   /**
    *
    * @param layers уровни нейронной сети.
@@ -62,17 +62,21 @@ export class NeuralNetwork {
   public study(data: Array<Array<Array<number>>>): void {
     for(let i = 0; i < this.epochs; i++) {
       console.log("Эпоха", i);
-      const variants = 5400;
+      const variants = 7000;
       const nums = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].sort( () => .5 - Math.random());
 
       for (let v = 0; v < variants; v++) {
         for (const num of nums) {
-          this.calculate(data[num][v].map(value => value > 0 ? 1 : 0), 0, num);
+          if (data[num][v]) {
+            this.calculate(data[num][v], 0, num);
+          }
         }
       }
     }
 
-    console.log(JSON.stringify({ weights: this.weights, biases: this.biases}));
+    const tmpW = JSON.stringify({ weights: this.weights, biases: this.biases});
+    localStorage.setItem("weights", tmpW);
+    console.log(tmpW);
   }
 
   public backPropagation(dEdT: Array<number>, layer: number): void {

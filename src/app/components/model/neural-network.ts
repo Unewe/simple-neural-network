@@ -1,4 +1,4 @@
-import {diff, multiply, sigmoid, sigmoidDerivative, softmax, sum} from "../../util/util";
+import {diff, multiply, sigmoid, sigmoidDerivative, softmax, sum} from "../../util/mathUtil";
 
 export class NeuralNetwork {
   private readonly weights: Array<Array<Array<number>>> = [];
@@ -75,8 +75,6 @@ export class NeuralNetwork {
     }
 
     const tmpW = JSON.stringify({ weights: this.weights, biases: this.biases});
-    localStorage.setItem("weights", tmpW);
-    console.log(tmpW);
   }
 
   public backPropagation(dEdT: Array<number>, layer: number): void {

@@ -8,17 +8,21 @@ import { StoreModule } from '@ngrx/store';
 import {canvasReducer} from "./store/canvas.reducer";
 import {NeuralNetworkService} from "./services/neural-network/neural-network.service";
 import {ReactiveFormsModule} from "@angular/forms";
+import {NgOptimizedImage} from "@angular/common";
+import { ButtonComponent } from './components/button/button.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CanvasComponent
+    CanvasComponent,
+    ButtonComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot({canvas: canvasReducer}, {}),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgOptimizedImage
   ],
   providers: [NeuralNetworkService],
   bootstrap: [AppComponent]

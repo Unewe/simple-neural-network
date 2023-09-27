@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  background: #27282c;
+  color: white;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+}
+
+.relative {
+  position: relative;
+}

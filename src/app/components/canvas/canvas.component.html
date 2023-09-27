@@ -1,7 +1,7 @@
-<div style="display: flex">
+<div class="flex-center">
   <div>
     <div
-      class="canvas-wrapper"
+      class="canvas"
       *ngIf="(canvas$ | async) as canvas"
       (mousedown)="active = true"
       (mouseup)="active = false"
@@ -20,17 +20,27 @@
     <div *ngFor="let result of results; let i = index">{{i}} : {{result}}</div>
   </div>
 </div>
-<div (click)="clear()">Clear</div>
-<div *ngIf="(canvas$ | async) as canvas" (click)="calculate(canvas)">Calculate</div>
-<div *ngIf="(canvas$ | async) as canvas" (click)="log(canvas)">Log</div>
-<div (click)="study()">Study</div>
-<form *ngIf="(canvas$ | async) as canvas" [formGroup]="formGroup" (ngSubmit)="formSubmit(canvas)">
-  <input formControlName="digit">
-  <input formControlName="variant">
-  <button type="submit">Apply</button>
-</form>
 
-<form [formGroup]="testFromGroup" (ngSubmit)="testForm()">
-  <input formControlName="num">
-  <button type="submit">Test</button>
-</form>
+<div class="flex-center">
+  <button class="i-button"><img ngSrc="assets/images/pencil.svg" width="30" height="30" alt="Pencil" /></button>
+  <button class="i-button"><img ngSrc="assets/images/eraser.svg" width="30" height="30" alt="Eraser" /></button>
+</div>
+
+<div style="position: absolute; top: 8px">
+  <div><app-button [text]="'Clear'" [onClick]="clear.bind(this)"></app-button></div>
+  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
+  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
+  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
+  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
+</div>
+
+<div class="flex-center">
+  <div>
+    <div (click)="study()">Study</div>
+    <form *ngIf="(canvas$ | async) as canvas" [formGroup]="formGroup" (ngSubmit)="formSubmit(canvas)">
+      <input formControlName="digit">
+      <input formControlName="variant">
+      <button type="submit">Apply</button>
+    </form>
+  </div>
+</div>

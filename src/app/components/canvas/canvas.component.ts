@@ -1,12 +1,11 @@
 import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {CanvasStore} from "../../store/types";
-import {interval, map, Observable, share, Subject, switchMap} from "rxjs";
-import {clear, draw, paste} from "../../store/canvas.actions";
+import {map, Observable} from "rxjs";
+import {clear, draw} from "../../store/canvas.actions";
 import {canvasSize, pixelSize} from "../../store/canvas.reducer";
 import {NeuralNetworkService} from "../../services/neural-network/neural-network.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {learnData} from "../../constants";
 
 @Component({
   selector: 'app-canvas',
@@ -62,14 +61,6 @@ export class CanvasComponent implements OnInit {
 
   public study() {
     this.nnService.study();
-  }
-
-  public formSubmit(canvas: Array<number>) {
-    const {digit, variant} = this.formGroup.value;
-
-    if (digit && variant) {
-      this.store.dispatch(paste({canvas: learnData[parseInt(digit)][parseInt(variant)]}));
-    }
   }
 
   public setPencil() {

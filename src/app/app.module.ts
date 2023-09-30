@@ -15,7 +15,7 @@ import { ButtonComponent } from './components/button/button.component';
   declarations: [
     AppComponent,
     CanvasComponent,
-    ButtonComponent
+    ButtonComponent,
   ],
   imports: [
     BrowserModule,

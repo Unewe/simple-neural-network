@@ -6,6 +6,12 @@ button {
   padding: 8px;
   position: relative;
 
+  &.selected {
+    &::before {
+      background-color: aquamarine;
+    }
+  }
+
   &::before {
     content: " ";
     z-index: -1;

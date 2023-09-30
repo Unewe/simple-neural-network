@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {Store} from "@ngrx/store";
 import {CanvasStore} from "../../store/types";
-import {map, Observable} from "rxjs";
+import {interval, map, Observable, share, Subject, switchMap} from "rxjs";
 import {clear, draw, paste} from "../../store/canvas.actions";
 import {canvasSize, pixelSize} from "../../store/canvas.reducer";
 import {NeuralNetworkService} from "../../services/neural-network/neural-network.service";
@@ -11,7 +11,8 @@ import {learnData} from "../../constants";
 @Component({
   selector: 'app-canvas',
   templateUrl: './canvas.component.html',
-  styleUrls: ['./canvas.component.scss']
+  styleUrls: ['./canvas.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CanvasComponent implements OnInit {
   canvas$: Observable<Array<number>>;
@@ -30,7 +31,8 @@ export class CanvasComponent implements OnInit {
   }
 
   public draw(index: number) {
-    this.store.dispatch(draw({index}));
+
+    this.store.dispatch(draw({index, erase: this.eraser}));
   }
 
   public ngOnInit(): void {
@@ -70,7 +72,11 @@ export class CanvasComponent implements OnInit {
     }
   }
 
-  log() {
-    console.log("click");
+  public setPencil() {
+    this.eraser = false;
+  }
+
+  public setEraser() {
+    this.eraser = true;
   }
 }

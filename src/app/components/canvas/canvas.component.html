@@ -12,6 +12,7 @@
         *ngFor="let pixel of canvas; let i = index"
         [style.background-color]="getColor(pixel)"
         (mousemove)="active && draw(i)"
+        (mousedown)="draw(i)"
       ></div>
     </div>
   </div>
@@ -21,26 +22,9 @@
   </div>
 </div>
 
-<div class="flex-center">
-  <button class="i-button"><img ngSrc="assets/images/pencil.svg" width="30" height="30" alt="Pencil" /></button>
-  <button class="i-button"><img ngSrc="assets/images/eraser.svg" width="30" height="30" alt="Eraser" /></button>
-</div>
-
-<div style="position: absolute; top: 8px">
+<div [className]="'buttons-wrapper'">
+  <div><app-button [text]="'Pencil'" [selected]="!eraser" [onClick]="setPencil.bind(this)"></app-button></div>
+  <div><app-button [text]="'Eraser'" [selected]="eraser" [onClick]="setEraser.bind(this)"></app-button></div>
   <div><app-button [text]="'Clear'" [onClick]="clear.bind(this)"></app-button></div>
-  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
-  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
-  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
-  <div><app-button [text]="'Button 1'" [onClick]="log"></app-button></div>
-</div>
-
-<div class="flex-center">
-  <div>
-    <div (click)="study()">Study</div>
-    <form *ngIf="(canvas$ | async) as canvas" [formGroup]="formGroup" (ngSubmit)="formSubmit(canvas)">
-      <input formControlName="digit">
-      <input formControlName="variant">
-      <button type="submit">Apply</button>
-    </form>
-  </div>
+  <div><app-button [text]="'Study'" [onClick]="clear.bind(this)"></app-button></div>
 </div>

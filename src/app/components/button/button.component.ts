@@ -8,6 +8,8 @@ import {on} from "@ngrx/store";
 })
 export class ButtonComponent {
   @Input()
+  selected = false;
+  @Input()
   text: string = "";
   @Input()
   onClick: () => void = () => {};
